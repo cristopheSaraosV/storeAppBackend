@@ -37,7 +37,7 @@ const userPut = async (req = request, res = response) => {
 
 const userPost = async (req = request, res = response) => {
 	const { name, email, password, rol, ...resto } = req.body;
-	const user = new User({ name, email, password, rol });
+	const user = new User({ name, email:email.toLowerCase() , password, rol });
 
 	const existEmail = await User.findOne({ email });
 
