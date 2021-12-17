@@ -8,6 +8,7 @@ const saleGet = async (req = request, res = response) => {
     var arrayProduct = [];
 
 	for (let index = 0; index < sales.length; index++) {
+        arrayProduct = [];
 		const sale = sales[index];
 		const { products, _id, total, date } = sale;
 		for (let index = 0; index < products.length; index++) {
@@ -25,7 +26,7 @@ const saleGet = async (req = request, res = response) => {
 		});
 	}
 
-	return res.json(arraySales);
+	return res.json({arraySales});
 };
 
 
