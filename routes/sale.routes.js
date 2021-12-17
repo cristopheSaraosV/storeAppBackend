@@ -17,10 +17,6 @@ routerSales.get(`/`,[
 routerSales.post('/save',[
     validateJWT,
     hasRole('ADMIN_ROLE','EMPLOYEE_ROLE'),
-    check('totalSale', ' the total sale it must be decimal').isDecimal(),
-    check('totalSale', ' the total sale is required').not().isEmpty(),
-    check('saleDate' , ' the total sale it must be String').isString(),
-    check('saleDate' , ' the total sale is required').not().isEmpty(),
     validateFields
 ],
 saveSale)
