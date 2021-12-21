@@ -15,9 +15,9 @@ const saleGet = async (req = request, res = response) => {
 			const productDB = await Product.findOne({
 				_id: products[index].product,
 			});
-			arrayProduct.push(productDB);
-		}
 
+			arrayProduct.push({productDB,'amount':products[index].amount});
+		}
 		arraySales.push({
 			_id,
 			total,
@@ -34,6 +34,16 @@ const saveSale = async (req = request, res = response) => {
 	const { total, saleDate, products } = req.body;
 
 	const dateNow = new Date(saleDate);
+
+    console.log(products);
+    products.forEach( async element => {
+        
+        const { product, amount } = element;
+        const { _id } = product;
+        const stockProduct = await Product.findOne({_id}).select("stock");
+        await Product.findByIdAndUpdate(_id,{stock: stockProduct.stock-amount})
+        
+    });
 
 	const sale = new Sale({
 		total,
