@@ -5,10 +5,10 @@ const Product = require('../models/product');
 const saleGet = async (req = request, res = response) => {
 	const sales = await Sale.find();
 	var arraySales = [];
-    var arrayProduct = [];
+	var arrayProduct = [];
 
 	for (let index = 0; index < sales.length; index++) {
-        arrayProduct = [];
+		arrayProduct = [];
 		const sale = sales[index];
 		const { products, _id, total, date } = sale;
 		for (let index = 0; index < products.length; index++) {
@@ -16,34 +16,32 @@ const saleGet = async (req = request, res = response) => {
 				_id: products[index].product,
 			});
 
-			arrayProduct.push({productDB,'amount':products[index].amount});
+			arrayProduct.push({ productDB, amount: products[index].amount });
 		}
 		arraySales.push({
 			_id,
 			total,
 			date,
-			products:arrayProduct,
+			products: arrayProduct,
 		});
 	}
 
-	return res.json({arraySales});
+	return res.json({ arraySales });
 };
-
 
 const saveSale = async (req = request, res = response) => {
 	const { total, saleDate, products } = req.body;
 
 	const dateNow = new Date(saleDate);
 
-    console.log(products);
-    products.forEach( async element => {
-        
-        const { product, amount } = element;
-        const { _id } = product;
-        const stockProduct = await Product.findOne({_id}).select("stock");
-        await Product.findByIdAndUpdate(_id,{stock: stockProduct.stock-amount})
-        
-    });
+	products.forEach(async (element) => {
+		const { product, amount } = element;
+		const { _id } = product;
+		const stockProduct = await Product.findOne({ _id }).select('stock');
+		await Product.findByIdAndUpdate(_id, {
+			stock: stockProduct.stock - amount,
+		});
+	});
 
 	const sale = new Sale({
 		total,
@@ -59,4 +57,19 @@ const saveSale = async (req = request, res = response) => {
 	});
 };
 
-module.exports = { saleGet, saveSale };
+
+const getStatistics = async (req = request, res = response) => {
+    const totalSales = await Sale.find().select({total:1 });
+
+    const totalReduce = totalSales.reduce( (a, b) => a + (b['total'] || 0), 0 ) ;
+    res.json({
+        countSales: totalSales.length,
+        totalReduce
+        
+    })
+}
+
+
+
+
+module.exports = { saleGet, saveSale, getStatistics };

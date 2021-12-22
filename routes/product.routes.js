@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const {	productGet, productPost, productPut,productDelete, searchProductsWithName } = require('../controllers/product.controller');
+const {	productGet, productPost, productPut,productDelete, searchProductsWithName, productsUnderStock } = require('../controllers/product.controller');
 const { validateFields } =require('../middlewares');
 const { check } = require('express-validator')
 const { existProductById } = require('../helpers/db-validatiors');
@@ -49,6 +49,13 @@ routerProduct.delete(`/:id`, [
     validateFields
 
 ],productDelete);
+
+
+routerProduct.get(`/under_stock`, [
+    validateJWT,
+    hasRole('ADMIN_ROLE'),
+    validateFields
+],productsUnderStock);
 
 
 module.exports = routerProduct;

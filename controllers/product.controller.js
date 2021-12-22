@@ -68,7 +68,6 @@ const productGet = async (req = request, res = response) => {
 	});
 };
 const productPost = async (req = request, res = response) => {
-	
 	const {
 		name,
 		description,
@@ -76,11 +75,10 @@ const productPost = async (req = request, res = response) => {
 		stock,
 		state,
 		category,
-        img,
+		img,
 		...resto
 	} = req.body;
 
- 
 	const product = new Product({
 		name,
 		description,
@@ -122,8 +120,7 @@ const productPost = async (req = request, res = response) => {
 };
 
 const productPut = async (req = request, res = response) => {
-
-    const { id } = req.params;
+	const { id } = req.params;
 	const {
 		name,
 		description,
@@ -132,17 +129,13 @@ const productPut = async (req = request, res = response) => {
 		state,
 		category,
 		img,
-        files,
+		files,
 		...resto
 	} = req.body;
-
 
 	const categorySelected = await Category.findOne(
 		$where[({ name: category }, { _id: category })]
 	);
-
-
-
 
 	const updatedProduct = await Product.findByIdAndUpdate(
 		id,
@@ -180,10 +173,24 @@ const productDelete = async (req = request, res = response) => {
 	});
 };
 
+const productsUnderStock = async (req = request, res = response) => {
+	const productsUnderStock = (await Product.find().select({'name':1,'stock':1}) )
+		.filter((product) => product.stock <= 10)
+		.sort((productA, productB) => productA.stock - productB.stock).splice(0,5);
+
+        
+        const newProductsName = [...productsUnderStock];
+        const newproductsPrice = [...productsUnderStock];
+        const productsName  = newProductsName.map( item => item.name)
+        const productsPrice = newproductsPrice.map( item => item.stock)
+	res.json({ productsName,productsPrice });
+};
+
 module.exports = {
 	productGet,
 	productPost,
 	productPut,
 	productDelete,
 	searchProductsWithName,
+	productsUnderStock,
 };
