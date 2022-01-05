@@ -35,7 +35,6 @@ const searchProductsWithName = async (req = request, res = response) => {
 
 	res.json(products);
 };
-
 const productGet = async (req = request, res = response) => {
 	const { page = 1, from = 1 } = req.query;
 
