@@ -45,7 +45,7 @@ const productGet = async (req = request, res = response) => {
 			.limit(page * 6),
 	]);
 
-	const products = await Promise.all(
+	products = await Promise.all(
 		productsPromise.map(async (product) => {
 			const { name } = await Category.findById(product.category);
 			return {
@@ -173,16 +173,18 @@ const productDelete = async (req = request, res = response) => {
 };
 
 const productsUnderStock = async (req = request, res = response) => {
-	const productsUnderStock = (await Product.find().select({'name':1,'stock':1}) )
+	const productsUnderStock = (
+		await Product.find().select({ name: 1, stock: 1 })
+	)
 		.filter((product) => product.stock <= 10)
-		.sort((productA, productB) => productA.stock - productB.stock).splice(0,5);
+		.sort((productA, productB) => productA.stock - productB.stock)
+		.splice(0, 5);
 
-        
-        const newProductsName = [...productsUnderStock];
-        const newproductsPrice = [...productsUnderStock];
-        const productsName  = newProductsName.map( item => item.name)
-        const productsPrice = newproductsPrice.map( item => item.stock)
-	res.json({ productsName,productsPrice });
+	const newProductsName = [...productsUnderStock];
+	const newproductsPrice = [...productsUnderStock];
+	const productsName = newProductsName.map((item) => item.name);
+	const productsPrice = newproductsPrice.map((item) => item.stock);
+	res.json({ productsName, productsPrice });
 };
 
 module.exports = {
