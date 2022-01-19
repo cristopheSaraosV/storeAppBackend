@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { saleGet, saveSale, getStatistics, getSalesForMonth } = require('../controllers/sale.controller');
+const { saleGet, saveSale, getStatistics, getSalesForMonth,  getStatisticsOnDay } = require('../controllers/sale.controller');
 const { validateFields } =require('../middlewares');
 const { check } = require('express-validator')
 const { isAdminRole,hasRole } = require('../middlewares/validate-roles');
@@ -26,11 +26,19 @@ routerSales.post('/save',[
     validateFields
 ],
 saveSale)
+
 routerSales.get('/statistics',[
     validateJWT,
     hasRole('ADMIN_ROLE'),
     validateFields
 ],
 getStatistics)
+
+routerSales.get('/statisticsOnDay',[
+    validateJWT,
+    hasRole('ADMIN_ROLE'),
+    validateFields
+],
+getStatisticsOnDay)
 
 module.exports = routerSales;

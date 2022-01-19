@@ -81,7 +81,19 @@ const getStatistics = async (req = request, res = response) => {
     })
 }
 
+const getStatisticsOnDay = async (req = request, res = response) => {
+	const date = new Date().toLocaleDateString();
+    const totalSales = await Sale.find({date}).select({total:1 });
+
+    const totalReduce = totalSales.reduce( (a, b) => a + (b['total'] || 0), 0 ) ;
+    res.json({
+        countSales: totalSales.length,
+        totalReduce
+        
+    })
+}
 
 
 
-module.exports = { saleGet, saveSale, getStatistics, getSalesForMonth };
+
+module.exports = { saleGet, saveSale, getStatistics, getSalesForMonth,getStatisticsOnDay };
