@@ -7,7 +7,7 @@ const saleSchema = Schema({
 		default: Date.now,
 	},
 	date: {
-		type: Date,
+		type: String,
 		required: [true, 'The sale date is required'],
 	},
 	products: [

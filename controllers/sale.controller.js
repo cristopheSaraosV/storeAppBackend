@@ -1,6 +1,7 @@
 const { response, request } = require('express');
 const Sale = require('../models/sale');
 const Product = require('../models/product');
+const { json } = require('express/lib/response');
 
 const saleGet = async (req = request, res = response) => {
 	const sales = await Sale.find();
@@ -29,10 +30,21 @@ const saleGet = async (req = request, res = response) => {
 	return res.json({ arraySales });
 };
 
+
+const getSalesForMonth = async (req = request, res = response) => {
+	const { date } = req.query;
+	const sales = await Sale.find({date});
+	return res.json({
+		sales
+	})
+
+}
+
 const saveSale = async (req = request, res = response) => {
 	const { total, saleDate, products } = req.body;
 
 	const dateNow = new Date(saleDate);
+
 
 	products.forEach(async (element) => {
 		const { product, amount } = element;
@@ -45,7 +57,7 @@ const saveSale = async (req = request, res = response) => {
 
 	const sale = new Sale({
 		total,
-		date: dateNow,
+		date: dateNow.toLocaleDateString(),
 		products,
 	});
 
@@ -72,4 +84,4 @@ const getStatistics = async (req = request, res = response) => {
 
 
 
-module.exports = { saleGet, saveSale, getStatistics };
+module.exports = { saleGet, saveSale, getStatistics, getSalesForMonth };
