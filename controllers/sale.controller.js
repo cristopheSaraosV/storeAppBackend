@@ -2,6 +2,8 @@ const { response, request } = require('express');
 const Sale = require('../models/sale');
 const Product = require('../models/product');
 const { json } = require('express/lib/response');
+const  moment = require('moment'); // require
+moment().format(); 
 
 const saleGet = async (req = request, res = response) => {
 	const sales = await Sale.find();
@@ -93,7 +95,48 @@ const getStatisticsOnDay = async (req = request, res = response) => {
     })
 }
 
+const getSalesLastDay = async( req = request, res = response ) => {
+	
+	const numberOfDays = req.query.numberOfDays;
+	const dayForMonth = await lastDays(numberOfDays);
+	const  arraySalesLastDays = dayForMonth.map( async date => {
+		const sales = await Sale.find({date});
+		return sales.length
+	})
+	Promise.all(arraySalesLastDays).then(function(sales) {
+		return res.json({dayForMonth,sales});
+	})	
+
+} 
+// const getSalesLastDay = async( req = request, res = response ) => {
+	
+// 	const numberOfDays = req.query.numberOfDays;
+// 	const dayForMonth = await lastDays(numberOfDays);
+// 	const  arraySalesLastDays = dayForMonth.map( async date => {
+// 		const sales = await Sale.find({date});
+// 		return {
+// 			date,
+// 			sales
+// 		}
+// 	})
+// 	Promise.all(arraySalesLastDays).then(function(sales) {
+// 		return res.json(sales);
+// 	})	
+
+// } 
 
 
+const lastDays = async( numberOfDays ) => {
 
-module.exports = { saleGet, saveSale, getStatistics, getSalesForMonth,getStatisticsOnDay };
+	const arrayLastDays = []
+	const dateMoment = new moment()
+	for (let index = 0; index < numberOfDays; index++) {
+		const date = dateMoment.format('l')
+		dateMoment.subtract(1, 'days').calendar();
+		arrayLastDays.push(date);
+	}
+	return arrayLastDays
+}
+
+
+module.exports = { saleGet, saveSale, getStatistics, getSalesForMonth,getStatisticsOnDay,getSalesLastDay };
