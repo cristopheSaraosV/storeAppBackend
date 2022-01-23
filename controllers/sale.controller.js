@@ -7,9 +7,9 @@ moment().format();
 
 const saleGet = async (req = request, res = response) => {
 	const sales = await Sale.find();
-	var arraySales = [];
 	var arrayProduct = [];
-
+	
+	var arraySales = [];
 	for (let index = 0; index < sales.length; index++) {
 		arrayProduct = [];
 		const sale = sales[index];
@@ -36,8 +36,28 @@ const saleGet = async (req = request, res = response) => {
 const getSalesForMonth = async (req = request, res = response) => {
 	const { date } = req.query;
 	const sales = await Sale.find({date});
+
+var arraySales = [];
+	for (let index = 0; index < sales.length; index++) {
+		arrayProduct = [];
+		const sale = sales[index];
+		const { products, _id, total, date } = sale;
+		for (let index = 0; index < products.length; index++) {
+			const productDB = await Product.findOne({
+				_id: products[index].product,
+			});
+
+			arrayProduct.push({ productDB, amount: products[index].amount });
+		}
+		arraySales.push({
+			_id,
+			total,
+			date,
+			products: arrayProduct,
+		});
+	}	
 	return res.json({
-		sales
+		sales:arraySales
 	})
 
 }
@@ -103,27 +123,12 @@ const getSalesLastDay = async( req = request, res = response ) => {
 		const sales = await Sale.find({date});
 		return sales.length
 	})
+	
 	Promise.all(arraySalesLastDays).then(function(sales) {
 		return res.json({dayForMonth,sales});
 	})	
 
 } 
-// const getSalesLastDay = async( req = request, res = response ) => {
-	
-// 	const numberOfDays = req.query.numberOfDays;
-// 	const dayForMonth = await lastDays(numberOfDays);
-// 	const  arraySalesLastDays = dayForMonth.map( async date => {
-// 		const sales = await Sale.find({date});
-// 		return {
-// 			date,
-// 			sales
-// 		}
-// 	})
-// 	Promise.all(arraySalesLastDays).then(function(sales) {
-// 		return res.json(sales);
-// 	})	
-
-// } 
 
 
 const lastDays = async( numberOfDays ) => {
