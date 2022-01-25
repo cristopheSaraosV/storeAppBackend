@@ -48,6 +48,13 @@ const categoryPut = async (req = request, res = response) => {
 
 	const { _id, name, ...resto } = req.body;
 
+	const existCategory = await Category.findOne({ name });
+
+	if (existCategory) {
+		return res.status(400).json({
+			msg: 'Category is already registered',
+		});
+	}
 	const category = await Category.findByIdAndUpdate(id, { name },{ new: true });
 
 	res.json({
