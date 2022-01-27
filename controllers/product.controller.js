@@ -35,6 +35,7 @@ const searchProductsWithName = async (req = request, res = response) => {
 
 	res.json(products);
 };
+
 const productGet = async (req = request, res = response) => {
 	const { page = 1, from = 1 } = req.query;
 
@@ -66,6 +67,7 @@ const productGet = async (req = request, res = response) => {
 		products,
 	});
 };
+
 const productPost = async (req = request, res = response) => {
 	const {
 		name,
@@ -187,6 +189,34 @@ const productsUnderStock = async (req = request, res = response) => {
 	res.json({ productsName, productsPrice });
 };
 
+const productGetSales = async (req = request, res = response) => {
+
+	const [total, productsPromise] = await Promise.all([
+		Product.countDocuments(),
+		Product.find()
+	]);
+
+	products = await Promise.all(
+		productsPromise.map(async (product) => {
+			const { name } = await Category.findById(product.category);
+			return {
+				img: product.img,
+				state: product.state,
+				_id: product._id,
+				name: product.name,
+				description: product.description,
+				price: product.price,
+				stock: product.stock,
+				category: name,
+			};
+		})
+	);
+
+	res.json({
+		total,
+		products,
+	});
+};
 module.exports = {
 	productGet,
 	productPost,
@@ -194,4 +224,5 @@ module.exports = {
 	productDelete,
 	searchProductsWithName,
 	productsUnderStock,
+	productGetSales
 };
