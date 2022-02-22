@@ -1,7 +1,7 @@
 const { response, request } = require('express');
 const Sale = require('../models/sale');
 const Product = require('../models/product');
-const { json } = require('express/lib/response');
+const { json, type } = require('express/lib/response');
 const  moment = require('moment'); // require
 moment().format(); 
 
@@ -35,7 +35,13 @@ const saleGet = async (req = request, res = response) => {
 
 const getSalesForMonth = async (req = request, res = response) => {
 	const { date } = req.query;
-	const sales = await Sale.find({date});
+	const datee = new Date( date);
+	console.log(datee);
+	const sales = await Sale.find({
+		date: { $gte: new Date(datee) },
+		date: { $lt: new Date(datee) }
+	 });
+		
 
 var arraySales = [];
 	for (let index = 0; index < sales.length; index++) {
@@ -59,14 +65,14 @@ var arraySales = [];
 	return res.json({
 		sales:arraySales
 	})
+	
 
 }
 
 const saveSale = async (req = request, res = response) => {
 	const { total, saleDate, products } = req.body;
 
-	const dateNow = new Date(saleDate);
-
+	const dateNow = moment(saleDate).format('YYYY-MM-DD');
 
 	products.forEach(async (element) => {
 		const { product, amount } = element;
@@ -79,7 +85,7 @@ const saveSale = async (req = request, res = response) => {
 
 	const sale = new Sale({
 		total,
-		date: dateNow.toLocaleDateString(),
+		date: dateNow,
 		products,
 	});
 
@@ -105,7 +111,11 @@ const getStatistics = async (req = request, res = response) => {
 
 const getStatisticsOnDay = async (req = request, res = response) => {
 	const date = new Date().toLocaleDateString();
-    const totalSales = await Sale.find({date}).select({total:1 });
+	
+	const totalSales = await Sale.find({
+		date: { $gte: new Date(date) },
+		date: { $lt: new Date(date) }
+	}).select({total:1});
 
     const totalReduce = totalSales.reduce( (a, b) => a + (b['total'] || 0), 0 ) ;
     res.json({
@@ -120,7 +130,10 @@ const getSalesLastDay = async( req = request, res = response ) => {
 	const numberOfDays = req.query.numberOfDays;
 	const dayForMonth = await lastDays(numberOfDays);
 	const  arraySalesLastDays = dayForMonth.map( async date => {
-		const sales = await Sale.find({date});
+		const sales = await Sale.find({
+			date: { $gte: new Date(date) },
+			date: { $lt: new Date(date) }
+		});		
 		return sales.length
 	})
 	
