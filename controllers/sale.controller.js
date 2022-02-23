@@ -36,10 +36,11 @@ const saleGet = async (req = request, res = response) => {
 const getSalesForMonth = async (req = request, res = response) => {
 	const { date } = req.query;
 	const datee = new Date( date);
-	console.log(datee);
 	const sales = await Sale.find({
-		date: { $gte: new Date(datee) },
-		date: { $lt: new Date(datee) }
+		date: { 
+			$gte: sumDays(new Date( new Date(datee).setHours(00, 00, 00)),-1),
+			$lt:  sumDays(new Date( new Date(datee).setHours(23, 59, 59)),-1)    
+		 },
 	 });
 		
 
@@ -110,11 +111,13 @@ const getStatistics = async (req = request, res = response) => {
 }
 
 const getStatisticsOnDay = async (req = request, res = response) => {
-	const date = new Date().toLocaleDateString();
+	const date = new Date()
 	
 	const totalSales = await Sale.find({
-		date: { $gte: new Date(date) },
-		date: { $lt: new Date(date) }
+		date: { 
+			$gte: sumDays(new Date( new Date(date).setHours(00, 00, 00)),-1),
+			$lt:  sumDays(new Date( new Date(date).setHours(23, 59, 59)),-1)    
+		 },
 	}).select({total:1});
 
     const totalReduce = totalSales.reduce( (a, b) => a + (b['total'] || 0), 0 ) ;
@@ -125,15 +128,24 @@ const getStatisticsOnDay = async (req = request, res = response) => {
     })
 }
 
+const sumDays = (date, days)=>{
+	date.setDate(date.getDate() + days);
+	return date;
+}
+
 const getSalesLastDay = async( req = request, res = response ) => {
 	
 	const numberOfDays = req.query.numberOfDays;
 	const dayForMonth = await lastDays(numberOfDays);
 	const  arraySalesLastDays = dayForMonth.map( async date => {
 		const sales = await Sale.find({
-			date: { $gte: new Date(date) },
-			date: { $lt: new Date(date) }
+			date: { 
+				$gte: sumDays(new Date( new Date(date).setHours(00, 00, 00)),-1),
+        		$lt:  sumDays(new Date( new Date(date).setHours(23, 59, 59)),-1)    
+			 },
+			
 		});		
+		
 		return sales.length
 	})
 	
