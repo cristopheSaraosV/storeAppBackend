@@ -93,7 +93,7 @@
   "endSale":"End detail",
   "product":"Product",
   "products":"Products",
-  "calculateTotal":"Calcular total",
+  "calculateTotal":"Calculate Total.",
   "NoSalesWereFound":"No sales were found!",
   "payWith":"Pay with",
   "change":"Change",
@@ -105,5 +105,25 @@
   "setting.sale-description":"Change low, stockings and high sales ranges",
   "setting.saleLow":"Low sale",
   "setting.saleMiddle":"Average",
-  "setting.saleHight":"High sale"
+  "setting.saleHight":"High sale",
+  "listUser.title":"List Products",
+  "listUser.subTitle":"Full list of all products in DB",
+  "listUser.description":"Create User, See detail, Edit user, Remove user, Search for the name",
+  "buttonNewUser.title":"New user",
+  "buttonUpdateUser.title":"Update user",
+  "email":"Email",
+  "password":"Password",
+  "rol":"Role",
+  "btnSaveUser":"Save user",
+  "alertEmail":"The email must be required",
+  "alertPass":"The pass must be required",
+  "alertRol":"The role must be required",
+  "modalDeleteUser.title":"Delete user",
+  "saleLowTitleSpan":"Low sales",
+  "saleHightTitleSpan":"High sales",
+  "saleLowTitle":"Maximum range for low sales",
+  "saleHightTitle":"Minimo range for high sales",
+  "save":"Save"
+
+
 }

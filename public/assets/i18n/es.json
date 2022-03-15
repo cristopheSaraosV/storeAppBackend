@@ -10,7 +10,7 @@
   "product.UnderStock":"Productos bajo stock",
   "setting.lang-title":"Idioma",
   "setting.lang-description":"Cambia el idioma de la aplicación",
-  "setting.changeTheme-title":"Cambiar idioma",
+  "setting.changeTheme-title":"Cambiar tema",
   "setting.changeTheme-description":"El tema de la aplicación, este se mantiene después del cierre de sesión",
   "setting.title":"Ajustes",
   "setting.description":"Modifica tus preferencia, estas se guardaran.",
@@ -105,7 +105,29 @@
   "setting.sale-description":"Cambia los rangos de ventas bajas, medias y altas",
   "setting.saleLow":"Venta baja",
   "setting.saleMiddle":"Venta promedio",
-  "setting.saleHight":"Venta alta"
+  "setting.saleHight":"Venta alta",
+  "listUser.title":"Lista de usuarios",
+  "listUser.subTitle":"Lista completa de tus productos de BBDD",
+  "listUser.description":"Visualiza, crea, actualizada, elimina usuarios. ",
+  "buttonNewUser.title":"Nuevo usuario",
+  "buttonUpdateUser.title":"Actualizar usuario",
+  "email":"Correo",
+  "password":"Contraseña",
+  "rol":"Rol",
+  "btnSaveUser":"Guardar usuario",  
+  "alertEmail":"El correo es requerido",
+  "alertPass":"La contraseña es requerida",
+  "alertRol":"El rol es requerido",
+  "modalDeleteUser.title":"Eliminar usuario",
+  "saleLowTitleSpan":"Ventas baja",
+  "saleHightTitleSpan":"Ventas altas",
+  "saleLowTitle":"Rango maximo para ventas bajas",
+  "salHightTitle":"Rango maximo para ventas altas",
+  "save":"Guardar"
+
+
+
+
 
 
 }
