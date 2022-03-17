@@ -8,6 +8,7 @@ const routerAuth = require('../routes/auth.routes');
 const { dbConnection } = require('../database/config');
 const path = require('path');
 const routerSales = require('../routes/sale.routes');
+const routerSettings = require('../routes/settings.routes');
 class Server {
 	constructor() {
 		this.app = express();
@@ -22,6 +23,7 @@ class Server {
 		this.salesPath      = '/api/sale';
 		this.productPath    = '/api/products';
         this.authPath       = '/api/auth';
+        this.settingPath       = '/api/settings';
 
 		// Middleware
 		this.middlewares();
@@ -58,6 +60,8 @@ class Server {
 		this.app.use(this.categoriesPath, routerCategories);
 		this.app.use(this.productPath, routerProducts);
 		this.app.use(this.salesPath, routerSales);
+		this.app.use(this.salesPath, routerSales);
+		this.app.use(this.settingPath, routerSettings);
         
 	}
 

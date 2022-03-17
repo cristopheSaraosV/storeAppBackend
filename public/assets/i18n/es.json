@@ -101,7 +101,7 @@
   "shoppingCart":"Carrito de compras",
   "clearShoppingCart":"No tienes productos en tu carrito",
   "finished":"Finalizar",
-  "setting.sale-title":"Sales",
+  "setting.sale-title":"Ventas",
   "setting.sale-description":"Cambia los rangos de ventas bajas, medias y altas",
   "setting.saleLow":"Venta baja",
   "setting.saleMiddle":"Venta promedio",
@@ -123,7 +123,13 @@
   "saleHightTitleSpan":"Ventas altas",
   "saleLowTitle":"Rango maximo para ventas bajas",
   "salHightTitle":"Rango maximo para ventas altas",
-  "save":"Guardar"
+  "save":"Guardar",
+  "setting.product-description":"Cambia los rangos productos bajo stock y con stock",
+  "productLowTitle":"Productos sin stock",
+  "productHightTitle":"Productos disponible",
+  "productLowTitleSpan":"Rango minimo para contan con stock disponible",
+  "productHightTitleSpan":"Rango para limite de productos para stock bajo"
+
 
 
 

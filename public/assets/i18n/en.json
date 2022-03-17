@@ -123,7 +123,13 @@
   "saleHightTitleSpan":"High sales",
   "saleLowTitle":"Maximum range for low sales",
   "saleHightTitle":"Minimo range for high sales",
-  "save":"Save"
+  "save":"Save",
+  "setting.product-description":"Change ranges products under stock and with stock",
+  "productLowTitle":"Products without stock",
+  "productHightTitle":"Products available",
+  "productLowTitleSpan":"Minimum range for councate with account",
+  "productHightTitleSpan":"Range for product limit for low stock"
+
 
 
 }
