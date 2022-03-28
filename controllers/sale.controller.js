@@ -138,17 +138,22 @@ const getSalesLastDay = async( req = request, res = response ) => {
 	const numberOfDays = req.query.numberOfDays;
 	const dayForMonth = await lastDays(numberOfDays);
 	const  arraySalesLastDays = dayForMonth.map( async date => {
+		dayFormatInit =  new Date(date).toISOString().replace('Z','').replace(':00:00.000', ':00:00.000+00:00')
+		dayFormatEnd =  new Date(date).toISOString().replace('Z','').replace('T03','T00').replace(':00:00.000', ':00:00.000+00:00')
+		
 		const sales = await Sale.find({
 			date: { 
-				$gte: sumDays(new Date( new Date(date).setHours(00, 00, 00)),-1),
-        		$lt:  sumDays(new Date( new Date(date).setHours(23, 59, 59)),-1)    
-			 },
+				$lt:dayFormatInit,
+				$gte:  dayFormatEnd,
+			},
 			
 		});		
+		console.log(sales);
 		
 		return sales.length
 	})
-	
+
+
 	Promise.all(arraySalesLastDays).then(function(sales) {
 		return res.json({dayForMonth,sales});
 	})	

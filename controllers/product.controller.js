@@ -1,6 +1,7 @@
 const { response, request } = require('express');
 const Product = require('../models/product');
 const Category = require('../models/category');
+const Settings = require('../models/settings');
 const { $where } = require('../models/product');
 
 const cloudinary = require('cloudinary').v2;
@@ -175,10 +176,11 @@ const productDelete = async (req = request, res = response) => {
 };
 
 const productsUnderStock = async (req = request, res = response) => {
+	const setting = await Settings.findOne();
 	const productsUnderStock = (
 		await Product.find().select({ name: 1, stock: 1 })
 	)
-		.filter((product) => product.stock <= 10)
+		.filter((product) => product.stock <= setting.productHight)
 		.sort((productA, productB) => productA.stock - productB.stock)
 		.splice(0, 5);
 
