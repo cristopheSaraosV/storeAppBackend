@@ -138,12 +138,16 @@ const getSalesLastDay = async( req = request, res = response ) => {
 	const dayForMonth = await lastDays(numberOfDays);
 	const  arraySalesLastDays = await dayForMonth.map( async date => {
 		dayFormatInit =  new Date(date).toISOString().replace('Z','').replace('T03','T00').replace(':00:00.000', ':00:00.000+00:00')
-		dayFormatEnd =  new Date(date).toISOString().replace('Z','').replace('T03','T00').replace(':00:00.000', ':00:00.000+00:00')
-		
+		dayFormatEnd =  new Date(date).toISOString().replace('Z','').replace(':00:00.000', ':00:00.000+00:00')
+		console.log({
+			dayFormatInit,
+			dayFormatEnd,
+			"BD":"2022-02-23T00:00:00.000+00:00"
+		});
 		const sales = await Sale.find({
 			date: { 
-				$lt:dayFormatInit,
-				$gte:  dayFormatEnd,
+				$gte:dayFormatInit,
+				$lt:  dayFormatEnd,
 			},
 			
 		});		
