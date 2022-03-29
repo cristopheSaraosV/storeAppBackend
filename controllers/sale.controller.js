@@ -35,13 +35,17 @@ const saleGet = async (req = request, res = response) => {
 
 const getSalesForMonth = async (req = request, res = response) => {
 	const { date } = req.query;
-	const datee = new Date( date);
+	dayFormatInit = moment(date).toISOString().replace('Z','').replace('T03','T00').replace(':00:00.000', ':00:00.000+00:00')
+	dayFormatEnd = moment(date).toISOString().replace('Z','').replace('T00','T03').replace(':00:00.000', ':00:00.000+00:00')
+		
+	
 	const sales = await Sale.find({
 		date: { 
-			$gte: sumDays(new Date( new Date(datee).setHours(00, 00, 00)),-1),
-			$lt:  sumDays(new Date( new Date(datee).setHours(23, 59, 59)),-1)    
-		 },
+			$gte:dayFormatInit,
+			$lt:  dayFormatEnd,
+		},
 	 });
+
 		
 
 var arraySales = [];
@@ -98,7 +102,7 @@ const saveSale = async (req = request, res = response) => {
 	});
 };
 
-
+// *Finished
 const getStatistics = async (req = request, res = response) => {
     const totalSales = await Sale.find().select({total:1 });
 
@@ -109,7 +113,7 @@ const getStatistics = async (req = request, res = response) => {
         
     })
 }
-
+// *Finished
 const getStatisticsOnDay = async (req = request, res = response) => {
 	const date = new Date()
 	
@@ -127,12 +131,13 @@ const getStatisticsOnDay = async (req = request, res = response) => {
         
     })
 }
-
+// *Finished
 const sumDays = (date, days)=>{
 	date.setDate(date.getDate() + days);
 	return date;
 }
 
+// *Finished
 const getSalesLastDay = async( req = request, res = response ) => {
 	const numberOfDays = req.query.numberOfDays;
 	const dayForMonth = await lastDays(numberOfDays);
@@ -157,7 +162,7 @@ const getSalesLastDay = async( req = request, res = response ) => {
 	
 } 
 
-
+// *Finished
 const lastDays = async( numberOfDays ) => {
 
 	const arrayLastDays = []
