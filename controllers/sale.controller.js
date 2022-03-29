@@ -139,7 +139,6 @@ const getSalesLastDay = async( req = request, res = response ) => {
 	const  arraySalesLastDays = await dayForMonth.map( async date => {
 		dayFormatInit = moment(date).toISOString().replace('Z','').replace('T03','T00').replace(':00:00.000', ':00:00.000+00:00')
 		dayFormatEnd = moment(date).toISOString().replace('Z','').replace('T00','T03').replace(':00:00.000', ':00:00.000+00:00')
-		console.log({dayFormatInit,dayFormatEnd});
 		const sales = await Sale.find({
 			date: { 
 				$gte:dayFormatInit,
