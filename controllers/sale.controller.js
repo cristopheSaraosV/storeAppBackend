@@ -134,7 +134,6 @@ const sumDays = (date, days)=>{
 }
 
 const getSalesLastDay = async( req = request, res = response ) => {
-	
 	const numberOfDays = req.query.numberOfDays;
 	const dayForMonth = await lastDays(numberOfDays);
 	const  arraySalesLastDays = await dayForMonth.map( async date => {
