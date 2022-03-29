@@ -162,12 +162,19 @@ const getSalesLastDay = async( req = request, res = response ) => {
 const lastDays = async( numberOfDays ) => {
 
 	const arrayLastDays = []
-	const dateMoment = new moment()
-	for (let index = 0; index < numberOfDays; index++) {
-		const date = dateMoment.format('l')
+	const array = Array.from({length:numberOfDays})
+
+	const dateMoment =  moment()
+	dateMoment.set({hour:0,minute:0,second:0,millisecond:0})
+	for (date of array) {
+		const date = dateMoment.toISOString()
 		dateMoment.subtract(1, 'days').calendar();
 		arrayLastDays.push(date);
 	}
+	console.log(arrayLastDays);
+
+
+
 	return arrayLastDays
 }
 
