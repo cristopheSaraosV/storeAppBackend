@@ -148,7 +148,10 @@ const getSalesLastDay = async( req = request, res = response ) => {
 			},
 			
 		});		
-		console.log(dayFormatInit);
+		console.log({
+			dayFormatInit,
+			dayFormatEnd
+		});
 		
 		return sales.length
 	})
